@@ -7,6 +7,14 @@ and has similar APIs with redis-py.
 Simply execute ``python -m litekv`` (if you have installed it) or ``python litekv.py`` to run doctest.
 
 
+Installation
+------------
+
+::
+
+    pip install litekv
+
+
 Usage
 -----
 
