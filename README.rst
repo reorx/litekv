@@ -1,4 +1,4 @@
-LiteKV - Redis like wrapper for sqlite3
+LiteKV - redis-like wrapper for sqlite3
 =======================================
 
 LiteKV is a wrapper for sqlite3, it turns sqlite3 into a kv data store,
