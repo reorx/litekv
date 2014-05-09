@@ -111,10 +111,12 @@ if __name__ == '__main__':
     clear_db_file()
     db = LiteKV(reset=True, rowid=True)
     benchmark(db)
+    db.close()
 
     print '\nWithout rowid'
     clear_db_file()
     db = LiteKV(reset=True, rowid=False)
     benchmark(db)
+    db.close()
 
     clear_db_file()
