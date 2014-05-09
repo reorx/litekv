@@ -4,7 +4,7 @@ LiteKV - Redis like wrapper for sqlite3
 LiteKV is a wrapper for sqlite3, it turns sqlite3 into a kv data store,
 and has similar APIs with redis-py.
 
-Simply execute `python -m litekv` (if you have installed it) or `python litekv.py` to run doctest.
+Simply execute ``python -m litekv`` (if you have installed it) or ``python litekv.py`` to run doctest.
 
 
 Usage
