@@ -1,9 +1,8 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 import sqlite3
+from distutils.version import StrictVersion
 
-CAN_USE_WITHOUT_ROWID = sqlite3.sqlite_version.startswith('3.8')
+
+CAN_USE_WITHOUT_ROWID = StrictVersion(sqlite3.sqlite_version) >= StrictVersion('3.8.0')
 
 
 class LiteKV(object):
@@ -36,7 +35,7 @@ class LiteKV(object):
             sql = "CREATE TABLE IF NOT EXISTS %s (key TEXT PRIMARY KEY, value TEXT) WITHOUT ROWID;" % self._table_name
         else:
             if not rowid:
-                print 'Warning: as sqlite version is %s smaller than 3.8, WITHOUT ROWID can not be used, argument `rowid` will not affect' % sqlite3.sqlite_version
+                print('Warning: as sqlite version is %s smaller than 3.8, WITHOUT ROWID can not be used, argument `rowid` will not affect' % sqlite3.sqlite_version)
             sql = "CREATE TABLE IF NOT EXISTS %s (key TEXT NOT NULL UNIQUE, value TEXT);" % self._table_name
         self._conn.execute(sql)
 
@@ -45,7 +44,7 @@ class LiteKV(object):
         rv = cur.fetchone()
         if rv is None:
             return None
-        return rv[1].encode('utf8')
+        return rv[1]
 
     def set(self, key, value):
         assert isinstance(value, str)
@@ -65,7 +64,7 @@ class LiteKV(object):
     def keys(self):
         cur = self._conn.execute("SELECT key from %s" % self._table_name)
         for i in cur:
-            yield i[0].encode('utf8')
+            yield i[0]
 
     def close(self):
         self._conn.close()
@@ -94,26 +93,26 @@ if __name__ == '__main__':
         count = 10000
         t1 = time.time()
 
-        print 'Do %s inserts & reads' % count
+        print('Do %s inserts & reads' % count)
 
-        for i in xrange(count):
+        for i in range(count):
             db.set(str(i), s)
 
-        print count / (time.time() - t1), 'Insertion per second'
+        print(count / (time.time() - t1), 'Insertion per second')
 
         t1 = time.time()
-        for i in xrange(count):
+        for i in range(count):
             db.get(str(i))
 
-        print count / (time.time() - t1), 'Reads per second'
+        print(count / (time.time() - t1), 'Reads per second')
 
-    print 'With rowid'
+    print('With rowid')
     clear_db_file()
     db = LiteKV(reset=True, rowid=True)
     benchmark(db)
     db.close()
 
-    print '\nWithout rowid'
+    print('\nWithout rowid')
     clear_db_file()
     db = LiteKV(reset=True, rowid=False)
     benchmark(db)
